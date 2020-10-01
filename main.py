@@ -1,16 +1,13 @@
-# This is a sample Python script.
+from entity.board import Board
+from entity.cell import Cell
 
-# Press Maj+F10 to execute it or replace it with your code.
-# Press Double Shift to search everywhere for classes, files, tool windows, actions, and settings.
+board = Board()
+cells = []
 
+for i in range(9):
+    row = []
+    for j in range(9):
+        row.insert(Cell(None, [i, j]))
+    cells.insert(row)
 
-def print_hi(name):
-    # Use a breakpoint in the code line below to debug your script.
-    print(f'Hi, {name}')  # Press Ctrl+F8 to toggle the breakpoint.
-
-
-# Press the green button in the gutter to run the script.
-if __name__ == '__main__':
-    print_hi('PyCharm')
-
-# See PyCharm help at https://www.jetbrains.com/help/pycharm/
+board.cells = cells
