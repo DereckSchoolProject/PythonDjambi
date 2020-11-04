@@ -6,11 +6,11 @@ class Cell:
         self._peons = peons
         self._position = position
 
-    def getPeons(self):
+    def get_peons(self):
         return self._peons
 
-    def getPosX(self):
-        return self._position.index(0)
+    def get_pos_x(self):
+        return self._position[0]
 
-    def getPosY(self):
-        return self._position.index(1)
+    def get_pos_y(self):
+        return self._position[1]
