@@ -13,6 +13,12 @@ class Peons(ABC):
     def afterMove(self):
         return True
 
+    def getIcon(self):
+        return self._icon
+
+    def getColor(self):
+        return self._color
+
 class Chief(Peons):
     ''' representation of chief peons '''
     icon:str = "icons/chief.png"
