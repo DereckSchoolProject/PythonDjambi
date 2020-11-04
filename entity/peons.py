@@ -1,12 +1,10 @@
 from abc import ABC
-from entity.cell import Cell
 
 class Peons(ABC):
     ''' representation of peons '''
-    def __init__(self, color:str, cell:Cell):
+    def __init__(self, color:str):
         self._is_alive = True
         self._color = color
-        self._cell:cell
         self._icon:str
 
     def availableMove(self):

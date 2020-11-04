@@ -1,13 +1,21 @@
 from entity.board import Board
 from entity.cell import Cell
+from tkinter import *
 
-board = Board()
 cells = []
 
 for i in range(9):
-    row = []
+    row = [Cell]
     for j in range(9):
-        row.insert(Cell(None, [i, j]))
-    cells.insert(row)
+        pos = [i, j]
+        c = Cell(peons=None, position=pos)
+        row.append(c)
+    cells.append(row)
+board = Board(cells)
 
-board.cells = cells
+if __name__ == '__main__':
+    fenetre = Tk()
+    fenetre.title('Djambi')
+    label = Label(fenetre, text='Bienvenue sur Djambi Python')
+    label.pack()
+    fenetre.mainloop()
