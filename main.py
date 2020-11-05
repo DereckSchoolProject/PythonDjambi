@@ -31,7 +31,7 @@ def load_cell(cell: Cell):
     if cell == board.selected_cell:
         relief="sunken"
 
-    btn = Button(fenetre, bg=color, image=photo, borderwidth=3, relief=relief, command=lambda x=x, y=y: click_cell(x, y))
+    btn = Button(fenetre, bg=color, image=photo, borderwidth=5, relief=relief, command=lambda x=x, y=y: click_cell(x, y))
     btn.image = photo
     btn.grid(row=x, column=y)
 
@@ -48,7 +48,9 @@ board.init_place()
 
 if __name__ == '__main__':
     fenetre = Tk()
+    fenetre.resizable(0, 0)
     fenetre.title('Djambi')
+    fenetre.iconbitmap('./chief.ico')
     for rowCells in board.cells:
         for row in rowCells:
             load_cell(row)
