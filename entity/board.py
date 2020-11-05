@@ -33,8 +33,13 @@ class Board:
 
     def select_peons(self, x: int, y: int):
         cell = self._cells[x][y]
+
         if self._selected_cell != cell:
-            self._selected_cell = cell
+            if self._selected_cell is None:
+                self._selected_cell = cell
+            else:
+                self.move(x, y)
+                self._selected_cell = None
         else:
             self._selected_cell = None
 
