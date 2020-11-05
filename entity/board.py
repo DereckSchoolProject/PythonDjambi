@@ -9,12 +9,19 @@ class Board:
         self._cells = cells
         self._teams = []
         self._selected_cell = None
+        self._dead_peon = None
 
     def get_selected_cell(self):
         return self._selected_cell
 
     def set_selected_cell(self, selected_cell: Cell):
         self._selected_cell = selected_cell
+
+    def get_dead_peon(self):
+        return self._dead_peon
+
+    def set_dead_peon(self, dead_peon: Peons):
+        self._dead_peon = dead_peon
 
     def get_cells(self):
         return self._cells
@@ -26,20 +33,30 @@ class Board:
         if self._selected_cell is not None:
             cell = self._cells[x][y]
             if cell.peons is not None:
-                cell.peons
-            else:
-                cell.peons = self._selected_cell.peons
-                self._selected_cell.peons = None
+                self._dead_peon = cell.peons
+                self._dead_peon.is_alive = False
+            cell.peons = self._selected_cell.peons
+            self._selected_cell.peons = None
+
+    def move_death(self, x: int, y: int):
+        cell = self._cells[x][y]
+        cell.peons = self._dead_peon
 
     def select_peons(self, x: int, y: int):
         cell = self._cells[x][y]
 
         if self._selected_cell != cell:
             if self._selected_cell is None:
-                self._selected_cell = cell
+                if self._dead_peon is None:
+                    self._selected_cell = cell
+                else:
+                    self.move_death(x, y)
+                    self._dead_peon = None
+                    self._selected_cell = None
             else:
-                self.move(x, y)
-                self._selected_cell = None
+                if self._dead_peon is None:
+                    self.move(x, y)
+                    self._selected_cell = None
         else:
             self._selected_cell = None
 
@@ -94,4 +111,5 @@ class Board:
         self._cells[2][7].peons = Militant('Green')
 
     selected_cell = property(get_selected_cell, set_selected_cell)
+    dead_peon = property(get_dead_peon, set_dead_peon)
     cells = property(get_cells, set_cells)

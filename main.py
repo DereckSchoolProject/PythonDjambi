@@ -4,7 +4,9 @@ from tkinter import *
 
 
 def click_cell(x: int, y: int):
-    if board.cells[x][y].peons is not None or (board.selected_cell is not None and board.cells[x][y].peons is None):
+    if (board.cells[x][y].peons is not None and board.cells[x][y].peons.is_alive and board.dead_peon is None) or\
+            (board.selected_cell is not None and board.cells[x][y].peons is None) or\
+            (board.dead_peon is not None and board.cells[x][y].peons is None):
         last_x = -1
         last_y = -1
         if board.selected_cell is not None:
@@ -26,12 +28,16 @@ def load_cell(cell: Cell):
 
     if cell.peons is not None:
         photo = PhotoImage(file=cell.peons.icon)
-        color = cell.peons.color
+        if cell.peons.is_alive:
+            color = cell.peons.color
+        else:
+            color = 'black'
 
     if cell == board.selected_cell:
-        relief="sunken"
+        relief = "sunken"
 
-    btn = Button(fenetre, bg=color, image=photo, borderwidth=5, relief=relief, command=lambda x=x, y=y: click_cell(x, y))
+    btn = Button(fenetre, bg=color, image=photo, borderwidth=5, relief=relief,
+                 command=lambda x=x, y=y: click_cell(x, y))
     btn.image = photo
     btn.grid(row=x, column=y)
 

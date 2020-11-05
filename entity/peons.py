@@ -24,8 +24,15 @@ class Peons(ABC):
     def set_color(self, color: str):
         self._color = color
 
+    def get_is_alive(self):
+        return self._is_alive
+
+    def set_is_alive(self, is_alive: bool):
+        self._is_alive = is_alive
+
     icon = property(get_icon)
     color = property(get_color, set_color)
+    is_alive = property(get_is_alive, set_is_alive)
 
 
 class Chief(Peons):
