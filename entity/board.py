@@ -1,4 +1,5 @@
 from entity.cell import Cell
+from entity.teams import Teams
 from entity.peons import *
 
 
@@ -7,6 +8,7 @@ class Board:
 
     def __init__(self, cells: [Cell]):
         self.cells = cells
+        self.teams = []
 
     def move(self):
         return True

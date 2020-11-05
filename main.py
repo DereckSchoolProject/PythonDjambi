@@ -17,7 +17,7 @@ if __name__ == '__main__':
     fenetre.title('Djambi')
     for rowCells in cells:
         for row in rowCells:
-            if row.get_peons() != None:
+            if row.peons != None:
                 photo = PhotoImage(file=row.peons.icon)
                 btn = Button(fenetre, bg=row.peons.color, image=photo)
                 btn.image = photo
