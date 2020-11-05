@@ -2,6 +2,36 @@ from entity.board import Board
 from entity.cell import Cell
 from tkinter import *
 
+
+def click_cell(x: int, y: int):
+    last_x = -1
+    last_y = -1
+    if board.selected_cell is not None:
+        last_x = board.selected_cell.get_pos_x()
+        last_y = board.selected_cell.get_pos_y()
+    board.select_peons(x, y)
+
+    if last_x != -1 and last_y != -1:
+        load_cell(board.cells[last_x][last_y])
+    load_cell(board.cells[x][y])
+
+
+def load_cell(cell: Cell):
+    x = cell.get_pos_x()
+    y = cell.get_pos_y()
+    photo = PhotoImage(file=r'./icons/blank.png')
+    color = 'white'
+
+    if cell.peons is not None:
+        photo = PhotoImage(file=cell.peons.icon)
+        color = cell.peons.color
+
+    btn = Button(fenetre, bg=color, image=photo)
+    btn.image = photo
+    btn.bind('<Button-1>', click_cell(x, y))
+    btn.grid(row=x, column=y)
+
+
 cells = []
 for i in range(9):
     row = []
@@ -15,16 +45,7 @@ board.init_place()
 if __name__ == '__main__':
     fenetre = Tk()
     fenetre.title('Djambi')
-    for rowCells in cells:
+    for rowCells in board.cells:
         for row in rowCells:
-            if row.peons != None:
-                photo = PhotoImage(file=row.peons.icon)
-                btn = Button(fenetre, bg=row.peons.color, image=photo)
-                btn.image = photo
-                btn.grid(row=row.get_pos_x(), column=row.get_pos_y())
-            else:
-                photo = PhotoImage(file=r'./icons/blank.png')
-                btn = Button(fenetre, bg='white', image=photo)
-                btn.image = photo
-                btn.grid(row=row.get_pos_x(), column=row.get_pos_y())
+            load_cell(row)
     fenetre.mainloop()
