@@ -1,4 +1,6 @@
 class Teams:
-    ''' representation of teams '''
-    def __init__(self, peons:list):
+    """ Representation of teams. """
+
+    def __init__(self, peons: list):
+        """ Initialize methode. """
         self._peons = peons

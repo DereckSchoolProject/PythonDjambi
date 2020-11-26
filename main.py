@@ -2,10 +2,19 @@ from entity.board import Board
 from entity.cell import Cell
 from tkinter import *
 
+TITLE_NAME = 'Djambi'
+BITMAP_ICON = './chief.ico'
+ICON_BLANK = './icons/blank.png'
+COLOR_WHITE = 'white'
+COLOR_BLACK = 'black'
+UNSELECTED_RELIEF = 'ridge'
+SELECTED_RELIEF = 'sunken'
+
 
 def click_cell(x: int, y: int):
-    if (board.cells[x][y].peons is not None and board.cells[x][y].peons.is_alive and board.dead_peon is None) or\
-            (board.selected_cell is not None and board.cells[x][y].peons is None) or\
+    """ Actions on click on cell on the board. """
+    if (board.cells[x][y].peons is not None and board.cells[x][y].peons.is_alive and board.dead_peon is None) or \
+            (board.selected_cell is not None and board.cells[x][y].peons is None) or \
             (board.dead_peon is not None and board.cells[x][y].peons is None):
         last_x = -1
         last_y = -1
@@ -20,44 +29,47 @@ def click_cell(x: int, y: int):
 
 
 def load_cell(cell: Cell):
+    """ Load cells on the board. """
     x = cell.get_pos_x()
     y = cell.get_pos_y()
-    photo = PhotoImage(file=r'./icons/blank.png')
-    color = 'white'
-    relief = 'ridge'
+    photo = PhotoImage(file=ICON_BLANK)
+    color = COLOR_WHITE
+    relief = UNSELECTED_RELIEF
 
     if cell.peons is not None:
-        photo = PhotoImage(file=cell.peons.icon)
         if cell.peons.is_alive:
+            photo = PhotoImage(file=cell.peons.icon)
             color = cell.peons.color
         else:
-            color = 'black'
+            color = COLOR_BLACK
 
     if cell == board.selected_cell:
-        relief = "sunken"
+        relief = SELECTED_RELIEF
 
-    btn = Button(fenetre, bg=color, image=photo, borderwidth=5, relief=relief,
+    btn = Button(window, bg=color, image=photo, borderwidth=5, relief=relief,
                  command=lambda x=x, y=y: click_cell(x, y))
     btn.image = photo
     btn.grid(row=x, column=y)
 
 
-cells = []
-for i in range(9):
-    row = []
-    for j in range(9):
-        pos = [i, j]
-        row.append(Cell(peons=None, position=pos))
-    cells.append(row)
-board = Board(cells)
-board.init_place()
-
 if __name__ == '__main__':
-    fenetre = Tk()
-    fenetre.resizable(0, 0)
-    fenetre.title('Djambi')
-    fenetre.iconbitmap('./chief.ico')
+    """ Initialize the board. """
+    cells = []
+    for i in range(9):
+        row = []
+        for j in range(9):
+            pos = [i, j]
+            row.append(Cell(peons=None, position=pos))
+        cells.append(row)
+    board = Board(cells)
+    board.init_place()
+
+    """ Create UI windows. """
+    window = Tk()
+    window.resizable(0, 0)
+    window.title(TITLE_NAME)
+    window.iconbitmap(BITMAP_ICON)
     for rowCells in board.cells:
         for row in rowCells:
             load_cell(row)
-    fenetre.mainloop()
+    window.mainloop()
